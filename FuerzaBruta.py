@@ -14,7 +14,7 @@ def agregarCeros(num, cantDigitos):
     return numStr
 
 def cantidadBits(n):
-    num = (n+1)*(n+2)/2
+    num = (n+1)*(n+2)/2  ###### (n(n+1)/2) + n
     return num
 
 def posiblesSoluciones(n):
@@ -32,26 +32,40 @@ def fuerzaBruta(n):
     matriz = [[0, 0, 0, 2], [2, 2, 1, 0],[2, 1, 1, 1]] 
     cBits = cantidadBits(n)
     #listaSoluciones = (posiblesSoluciones(cBits))          #TODAS LAS POSIBLES SOLUCIONES
-    listaSoluciones = ["011110"]    
+    listaSoluciones = ["011000"]    
     listaSolucionesValid = []
 
     for solucionAct in listaSoluciones:
         x = 0
         y = 0
+        matrizTemp = matriz
         try:
             solValida = True
             fichasUsadas = []
             for posFicha in solucionAct: 
                 if int(posFicha) == 0:
+                    if matrizTemp[x][y] == -1:
+                        y+=1
+                        if matriz[x][y] == -1:
+                            y+=1
+                        if y >= (n+2):
+                            y = 0
+                            x += 1
                     fichaAct = (matriz[x][y], matriz[x][y+1])
+                    matrizTemp[x][y] = -1
+                    matrizTemp[x][y+1] = -1
                     y+=2
                 else:
+                    if matrizTemp[x][y] == -1 or matrizTemp[x+1][y] == -1:
+                        x+=1
                     fichaAct = (matriz[x][y], matriz[x+1][y])
+                    matrizTemp[x][y] = -1
+                    matrizTemp[x+1][y] = -1
                     y+=1
                 if y >= (n+2):
                     y = 0
                     x += 1
-                if (fichaAct in fichasUsadas or (fichaAct[1],fichaAct[0]) in fichasUsadas):
+                if fichaAct in fichasUsadas or (fichaAct[1],fichaAct[0]) in fichasUsadas:
                     solValida = False
                     print("Combinación inválida: " + solucionAct)
                     break
