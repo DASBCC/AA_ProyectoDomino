@@ -104,15 +104,15 @@ def fuerzaBruta(n):
                     y = 0
                     x += 1
                 if fichaAct in fichasUsadas or (fichaAct[1],fichaAct[0]) in fichasUsadas:
-                    solValida = False
-                    print("Combinación inválida: " + solucionAct)
-                    break
+                    solValida = False     
                 fichasUsadas.append(fichaAct)
             if solValida:
                 if verificarResultado(matrizTemp):
                     listaSolucionesValid.append(solucionAct)
                 else:
                     print("Combinación inválida: " + solucionAct)
+            else:
+                print("Combinación inválida: " + solucionAct)
         except:
             print("Combinación inválida: " + solucionAct)
     print("Soluciones válidas:\n\n\n")
@@ -120,8 +120,7 @@ def fuerzaBruta(n):
     return listaSolucionesValid
         
 
-
-#fuerzaBruta(5)
+fuerzaBruta(5)
 #create_puzzle(10)
 #['000000', '000110', '001111', '011000', '011110', '011111', '101000', '101011', '101101', '101110', '101111']
 #['000000', '000110', '001111', '011111']

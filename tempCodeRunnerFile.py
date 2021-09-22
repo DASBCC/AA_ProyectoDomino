@@ -1,0 +1,1 @@
+fuerzaBruta(3)
