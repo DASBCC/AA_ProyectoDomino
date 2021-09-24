@@ -1,5 +1,6 @@
 from CreateMatrix import create_puzzle
 import copy
+import time 
 
 def binarizar(decimal):
     binario = ''
@@ -48,6 +49,7 @@ def fuerzaBruta(n):
     #matriz = [[2,0,0,0,2], [0,3,1,0,1], [2,3,1,1,3], [3,1,2,2,3]]  #DOBLE 3
     #matriz = [[0,1,1,4,0,3], [1,4,0,4,4,3], [3,3,2,3,1,3], [0,4,2,2,1,2], [0,0,4,1,2,2]]  #DOBLE 4
     cBits = cantidadBits(n)
+    print("Creacion de soluciones")
     listaSoluciones = (posiblesSoluciones(cBits))          #TODAS LAS POSIBLES SOLUCIONES
     #listaSoluciones = ["000110", "011110"]    CORRECTAS
     #listaSoluciones = ["011110"] #CORRECTA     DOBLE 2
@@ -55,7 +57,7 @@ def fuerzaBruta(n):
     #listaSoluciones = ["0010000100"]       #CORRECTA    DOBLE 3
     #listaSoluciones = ["101111111001100"]   #   CORRECTA    DOBLE4
     listaSolucionesValid = []
-
+    print("Inicio de corrida")
     for solucionAct in listaSoluciones:
         x = 0
         y = 0
@@ -109,18 +111,17 @@ def fuerzaBruta(n):
             if solValida:
                 if verificarResultado(matrizTemp):
                     listaSolucionesValid.append(solucionAct)
-                else:
-                    print("Combinación inválida: " + solucionAct)
-            else:
-                print("Combinación inválida: " + solucionAct)
         except:
-            print("Combinación inválida: " + solucionAct)
+            ""
     print("Soluciones válidas:\n\n\n")
     print(listaSolucionesValid)
     return listaSolucionesValid
         
 
-fuerzaBruta(5)
+start = time.time() 
+fuerzaBruta(6)
+end = time.time()
+print("Time elapsed during the calculation:", end - start)
 #create_puzzle(10)
 #['000000', '000110', '001111', '011000', '011110', '011111', '101000', '101011', '101101', '101110', '101111']
 #['000000', '000110', '001111', '011111']

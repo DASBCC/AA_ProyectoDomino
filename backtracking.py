@@ -1,5 +1,6 @@
 from CreateMatrix import create_puzzle
 import copy
+import time 
 
 def binarizar(decimal):
     binario = ''
@@ -121,7 +122,11 @@ def backtracking(n):
         
 
 
+
+start = time.time() 
 backtracking(5)
+end = time.time()
+print("Time elapsed during the calculation:", end - start)
 #create_puzzle(10)
 #['000000', '000110', '001111', '011000', '011110', '011111', '101000', '101011', '101101', '101110', '101111']
 #['000000', '000110', '001111', '011111']
