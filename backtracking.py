@@ -44,6 +44,7 @@ def verificarResultado(matriz):
     return True
 
 def backtracking(n):
+    print("creando matriz")
     matriz = create_puzzle(n)                              #MATRIZ ALEATORIA
     #matriz = [[0, 0, 0, 2], [2, 2, 1, 0],[2, 1, 1, 1]]  #DOBLE 2
     #matriz = [[2,0,0,0,2], [0,3,1,0,1], [2,3,1,1,3], [3,1,2,2,3]]  #DOBLE 3
@@ -56,7 +57,7 @@ def backtracking(n):
     #listaSoluciones = ["0010000100"]       #CORRECTA    DOBLE 3
     #listaSoluciones = ["101111111001100"]   #   CORRECTA    DOBLE4
     listaSolucionesValid = []
-
+    print("incio corrida")
     for solucionAct in listaSoluciones:
         x = 0
         y = 0
@@ -106,16 +107,13 @@ def backtracking(n):
                     x += 1
                 if fichaAct in fichasUsadas or (fichaAct[1],fichaAct[0]) in fichasUsadas:
                     solValida = False
-                    print("Combinación inválida: " + solucionAct)
                     break
                 fichasUsadas.append(fichaAct)
             if solValida:
                 if verificarResultado(matrizTemp):
                     listaSolucionesValid.append(solucionAct)
-                else:
-                    print("Combinación inválida: " + solucionAct)
         except:
-            print("Combinación inválida: " + solucionAct)
+            ""
     print("Soluciones válidas:\n\n\n")
     print(listaSolucionesValid)
     return listaSolucionesValid

@@ -115,11 +115,11 @@ def fuerzaBruta(n):
             ""
     print("Soluciones válidas:\n\n\n")
     print(listaSolucionesValid)
-    return listaSolucionesValid
+    return [listaSolucionesValid, matriz]
         
 
 start = time.time() 
-fuerzaBruta(6)
+#fuerzaBruta(6)
 end = time.time()
 print("Time elapsed during the calculation:", end - start)
 #create_puzzle(10)
