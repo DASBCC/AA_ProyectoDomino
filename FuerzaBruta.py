@@ -119,7 +119,7 @@ def fuerzaBruta(n):
         
 
 start = time.time() 
-fuerzaBruta(6)
+fuerzaBruta(5)
 end = time.time()
 print("Time elapsed during the calculation:", end - start)
 #create_puzzle(10)
