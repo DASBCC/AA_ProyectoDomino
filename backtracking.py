@@ -1,130 +1,55 @@
 from CreateMatrix import create_puzzle
-import copy
-import time 
+from funciones import *
 
-def binarizar(decimal):
-    binario = ''
-    while decimal // 2 != 0:
-        binario = str(decimal % 2) + binario
-        decimal = decimal // 2
-    return str(decimal) + binario
-
-def agregarCeros(num, cantDigitos):
-    numStr = str(num)
-    while (len(numStr) < cantDigitos):
-        numStr = "0" + numStr
-    return numStr
-
-def cantidadBits(n):
-    num = (n+1)*(n+2)/2  ###### (n(n+1)/2) + n
-    return num
-
-def posiblesSoluciones(n):
-    listaSoluciones = []
-    i = 0
-    m = 2**n
-    while i != m:
-        num = agregarCeros(binarizar(i), n)
-        listaSoluciones.append(num)
-        i+=1
-    return listaSoluciones
-
-def crearMatrizTemp(matriz):
-    matrizTemp = []
-    for i in matriz:
-        temp = i
-        matrizTemp.append(temp)
-    return matrizTemp
-
-def verificarResultado(matriz):
-    for i in matriz:
-        for j in i:
-            if j != -1:
-                return False
-    return True
 
 def backtracking(n):
+    """
+    Funcionalidades: Algoritmo que prueba todas las posibles soluciones de fichas en una matriz de tamaño doble n. Posee una poda que
+    al detectar una solución incorrecta, inmediatamente descarta dicha solución y sigue con la siguiente, no termina de evaluarla.
+    Entradas: int n
+    Salidas: list que contiene en la primera posición la lista de soluciones y en la segunda la matriz generada
+    """
     print("creando matriz")
     matriz = create_puzzle(n)                              #MATRIZ ALEATORIA
-    #matriz = [[0, 0, 0, 2], [2, 2, 1, 0],[2, 1, 1, 1]]  #DOBLE 2
-    #matriz = [[2,0,0,0,2], [0,3,1,0,1], [2,3,1,1,3], [3,1,2,2,3]]  #DOBLE 3
-    #matriz = [[0,1,1,4,0,3], [1,4,0,4,4,3], [3,3,2,3,1,3], [0,4,2,2,1,2], [0,0,4,1,2,2]]  #DOBLE 4
     cBits = cantidadBits(n)
     listaSoluciones = (posiblesSoluciones(cBits))          #TODAS LAS POSIBLES SOLUCIONES
-    #listaSoluciones = ["000110", "011110"]    CORRECTAS
-    #listaSoluciones = ["011110"] #CORRECTA     DOBLE 2
-    #listaSoluciones = ["011100"]  #ERRONEA      DOBLE 2
-    #listaSoluciones = ["0010000100"]       #CORRECTA    DOBLE 3
-    #listaSoluciones = ["101111111001100"]   #   CORRECTA    DOBLE4
     listaSolucionesValid = []
     print("incio corrida")
     for solucionAct in listaSoluciones:
         x = 0
         y = 0
-        matrizTemp = copy.deepcopy(matriz)
-        #matrizTemp = matriz
+        matrizTemp = copy.deepcopy(matriz)                 #MATRIZ TEMPORAL QUE AYUDARÁ A REGISTRAR LAS POSICIONES USADAS
         try:
             solValida = True
             fichasUsadas = []
             for posFicha in solucionAct: 
-                while matrizTemp[x][y] == -1:
-                        y+=1
-                        #if matrizTemp[x][y] == -1:
-                        #    y+=1
-                        if y >= (n+2):
+                while matrizTemp[x][y] == -1:              #SE COMPRUEBA SI LA POS ACTUAL FUE USADA
+                        y+=1                               #DE SER ASÍ LA AUMENTA  
+                        if y >= (n+2):                     #SI LLEGÓ AL LIMITE DE LA MATRIZ (ANCHURA) 
                             y = 0
-                            x += 1
-                if int(posFicha) == 0:
-                    """
-                    if matrizTemp[x][y] == -1:
-                        y+=1
-                        if matrizTemp[x][y] == -1:
-                            y+=1
-                        if y >= (n+2):
-                            y = 0
-                            x += 1
-                    """
-                    #while matrizTemp[x][y] == -1:
-                    #    y+=1
-                        #if matrizTemp[x][y] == -1:
-                        #    y+=1
-                    #    if y >= (n+2):
-                    #        y = 0
-                    #        x += 1
+                            x += 1                         #PASA A LA SIGUIENTE FILA
+                if int(posFicha) == 0:                          #CASO FICHA HORIZONTAL
                     fichaAct = (matriz[x][y], matriz[x][y+1])
                     matrizTemp[x][y] = -1
                     matrizTemp[x][y+1] = -1
                     y+=2
-                else:
-                    #if matrizTemp[x][y] == -1 or matrizTemp[x+1][y] == -1:
-                    #    x+=1
+                else:                                           #CASO FICHA VERTICAL
                     fichaAct = (matriz[x][y], matriz[x+1][y])
                     matrizTemp[x][y] = -1
                     matrizTemp[x+1][y] = -1
                     y+=1
-                if y >= (n+2):
+                if y >= (n+2):                                  #COMPRUEBA SI SE LLEGÓ AL LÍMITE DE LA MATRIZ
                     y = 0
-                    x += 1
-                if fichaAct in fichasUsadas or (fichaAct[1],fichaAct[0]) in fichasUsadas:
-                    solValida = False
-                    break
+                    x += 1                                      #DE SER ASÍ AUMENTA FILA
+                if fichaAct in fichasUsadas or (fichaAct[1],fichaAct[0]) in fichasUsadas:   #COMPRUEBA QUE LA FICHA NO HAYA SIDO USADA
+                    solValida = False                                                       #SI YA SE USÓ, DESCARTA LA SOLUCIÓN ACTUAL
+                    break                           #DETIENE LA EVALUACIÓN DE LA SOLUCIÓN ACTUAL Y CONTINUA CON LA SIGUIENTE
                 fichasUsadas.append(fichaAct)
-            if solValida:
-                if verificarResultado(matrizTemp):
+            if solValida:                                   #AL FINALIZAR LA REVISIÓN DE LA SOLUCIÓN, SI ES VÁLIDA LA AGREGA
+                if verificarResultado(matrizTemp):           #A LA LISTA DE SOLUCIONES
                     listaSolucionesValid.append(solucionAct)
         except:
             ""
     print("Soluciones válidas:\n\n\n")
     print(listaSolucionesValid)
-    return listaSolucionesValid
-        
-
-
-
-start = time.time() 
-backtracking(5)
-end = time.time()
-print("Time elapsed during the calculation:", end - start)
-#create_puzzle(10)
-#['000000', '000110', '001111', '011000', '011110', '011111', '101000', '101011', '101101', '101110', '101111']
-#['000000', '000110', '001111', '011111']
+    return [listaSolucionesValid, matriz]
