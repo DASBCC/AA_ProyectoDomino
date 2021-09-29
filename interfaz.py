@@ -180,6 +180,10 @@ def generarMatriz():
             entradaTiempo.config(state = "normal")
             entradaTiempo.insert(END, str(end - start))
             entradaTiempo.config(state = "disable")
+
+            #LABEL DE TEXTO
+
+            canvas.create_text(190, 750 ,fill="black",font="Times 20 italic bold", text="Tiempo durado: ")
     except UnboundLocalError:
         messagebox.showerror("ERROR", "Debe seleccionar un algoritmo\npara buscar las posibles soluciones.")
     except ValueError:
@@ -192,6 +196,7 @@ def seleccionarOpcion():
     Salidas: N/A
     """
     canvas.delete("all")
+    canvas.create_text(190, 750 ,fill="black",font="Times 20 italic bold", text="Tiempo durado: ")
     num = int(entradaTablero.get())
     print (seleccionCB.get())
     print(matrizBackup)
@@ -237,9 +242,6 @@ seleccionCB = StringVar()
 drop = OptionMenu(ventana, seleccionCB, "")
 drop.pack(pady = 15)
 
-#LABEL DE TEXTO
-
-canvas.create_text(190, 750 ,fill="black",font="Times 20 italic bold", text="Tiempo durado: ")
 
 #LLAMADA PARA INICIAR EL PROGRAMA
 ventana.mainloop()
